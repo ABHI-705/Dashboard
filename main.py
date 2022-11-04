@@ -1,11 +1,10 @@
 import numpy as np
 import pandas as pd
-import geopandas as gpd
-import plotly.figure_factory as ff
+
 import streamlit as st
 import pandas_profiling
 import matplotlib.pyplot as plt
-from IPython.display import display as ds
+
 import plotly.graph_objects as go
 import plotly.express  as px
 from pandas_profiling import ProfileReport
