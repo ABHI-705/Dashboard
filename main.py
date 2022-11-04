@@ -128,6 +128,3 @@ profile
 st.dataframe(df)
 
 st_profile_report(profile)
-Requirements.txt
-
-streamlit==1.10.0
