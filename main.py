@@ -7,24 +7,23 @@ import matplotlib.pyplot as plt
 
 import plotly.graph_objects as go
 import plotly.express  as px
-from pandas_profiling import ProfileReport
+
 
 import pandas as pd
 
-import pandas_profiling
+
 
 import streamlit as st
 
-from streamlit_pandas_profiling import st_profile_report
 
-from pandas_profiling import ProfileReport
+
+
 st.set_page_config(page_title="Suicides In India",
                    page_icon=":bar_chart:",
                    layout="wide")
 df = pd.read_csv("C:/Users/tripa/Downloads/Suicides_in_India.csv")
 df
-profile = ProfileReport(df)
-profile
+
 
 #---sidebar
 st.sidebar.header("Please Filter Here:")
@@ -120,12 +119,3 @@ y=x["Total"].sum().reset_index().sort_values(by="Total",ascending=False)
 y.columns= ["Age_group","Total"]
 ax = px.bar(y,x = 'Age_group', y = "Total", color = 'Age_group', title='Deaths By different Age Groups')
 ax
-
-profile = ProfileReport(df,'Statistics Report')
-
-st.title("Suicide In India")
-
-
-st.dataframe(df)
-
-st_profile_report(profile)
