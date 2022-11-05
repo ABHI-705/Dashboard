@@ -12,7 +12,7 @@ from pandas_profiling import ProfileReport
 st.set_page_config(page_title="Suicides In India",
                    page_icon=":bar_chart:",
                    layout="wide")
-df = pd.read_csv("C:/Users/tripa/Downloads/Suicides_in_India.csv")
+df = pd.read_csv("Suicides_in_India.csv")
 df
 
 #---sidebar
