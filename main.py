@@ -66,7 +66,7 @@ st.title(":bar_chart: Suicides In India Dashboard")
 st.markdown("##")
 
 
-s_t=data.groupby(["Year"]).sum()["Total"].reset_index()
+s_t=df.groupby(["Year"]).sum()["Total"].reset_index()
 s_t
 
 fig = px.line(s_t, x="Year", y="Total",title="Suicide Rate Per Year")
