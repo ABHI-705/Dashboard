@@ -65,6 +65,12 @@ st.dataframe(df_selection)
 st.title(":bar_chart: Suicides In India Dashboard")
 st.markdown("##")
 
+fig = px.line(s_t, x="Year", y="Total",title="Suicide Rate Per Year")
+fig.show()
+
+fig = px.bar(s_t, x="Year", y="Total ", barmode="group")
+fig.show()
+
 
 state_wise_deaths=((df.groupby(["State"]).sum())[["Total"]].sort_values(by="Total"))
 fig_deaths=px.bar(
