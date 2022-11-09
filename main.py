@@ -68,7 +68,7 @@ st.markdown("##")
 
 s_t=df.groupby(["Year"]).sum()["Total"].reset_index()
 
-fig = px.line(s_t, x="Year", y="Total",title="Suicide Rate Per Year")
+fig = px.line( x=s_t["Year"], y=s_t["Total"],title="Suicide Rate Per Year")
 fig.show()
 
 fig = px.bar(s_t, x="Year", y="Total ", barmode="group")
