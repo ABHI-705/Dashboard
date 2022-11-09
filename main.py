@@ -69,7 +69,7 @@ st.markdown("##")
 s_t=df.groupby(["Year"]).sum()["Total"].reset_index()
 
 fig = px.line(s_t, x=s_t["Year"], y=s_t["Total"],title="Suicide Rate Per Year")
-fig.show()
+fig
 
 
 
