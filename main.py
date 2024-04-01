@@ -1,6 +1,7 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd
+from pandas_profiling import ProfileReport
 
 # Set page configuration
 st.set_page_config(
@@ -62,10 +63,8 @@ age_group_deaths = df.groupby("Age_group").sum()["Total"].reset_index().sort_val
 fig_age_group_deaths = px.bar(age_group_deaths, x="Age_group", y="Total", color="Age_group", title="Deaths by Age Groups")
 st.plotly_chart(fig_age_group_deaths)
 
-# Display basic statistics
-st.title("Basic Statistics")
-st.header("Summary Statistics")
-st.write(filtered_df.describe())
-
-st.header("Data Types")
-st.write(filtered_df.dtypes)
+# Statistics Report
+st.title("Statistics Report")
+st.header("Data Summary")
+profile = ProfileReport(df, title="Pandas Profiling Report", minimal=True)
+st.write(profile.to_html())
