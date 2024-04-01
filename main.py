@@ -2,7 +2,6 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 from pandas_profiling import ProfileReport
-from streamlit_pandas_profiling import st_profile_report
 
 # Set page configuration
 st.set_page_config(
@@ -67,5 +66,5 @@ st.plotly_chart(fig_age_group_deaths)
 # Statistics Report
 st.title("Statistics Report")
 st.header("Data Summary")
-profile = ProfileReport(df, minimal=True)
-st_profile_report(profile)
+profile = ProfileReport(df, title="Pandas Profiling Report")
+st.write(profile.to_html())
