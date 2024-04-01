@@ -72,5 +72,5 @@ st.plotly_chart(fig_age_group_deaths)
 # Statistics Report
 st.title("Statistics Report")
 st.header("Data Summary")
-profile = ProfileReport(df, title="Pandas Profiling Report", minimal=True)
+profile = ProfileReport(df)
 profile
