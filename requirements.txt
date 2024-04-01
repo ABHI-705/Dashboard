@@ -12,5 +12,5 @@ python-dateutil==2.8.2
 statsmodels==0.13.5
 streamlit==1.14.0
 streamlit-pandas-profiling==0.1.3
-
+streamlit_pandas_profiling
 plotly==5.11.0
