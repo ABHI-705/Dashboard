@@ -63,8 +63,7 @@ age_group_deaths = df.groupby("Age_group").sum()["Total"].reset_index().sort_val
 fig_age_group_deaths = px.bar(age_group_deaths, x="Age_group", y="Total", color="Age_group", title="Deaths by Age Groups")
 st.plotly_chart(fig_age_group_deaths)
 
-# Statistics Report
 st.title("Statistics Report")
 st.header("Data Summary")
-profile = ProfileReport(df, title="Pandas Profiling Report")
+profile = ProfileReport(df, title="Pandas Profiling Report", minimal=True)
 st.write(profile.to_html())
