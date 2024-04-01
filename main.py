@@ -2,6 +2,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 from pandas_profiling import ProfileReport
+from streamlit_pandas_profiling import st_profile_report
 
 st.set_page_config(page_title="Suicides In India",
                    page_icon=":bar_chart:",
