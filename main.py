@@ -72,5 +72,6 @@ st.plotly_chart(fig_age_group_deaths)
 # Statistics Report
 st.title("Statistics Report")
 st.header("Data Summary")
-profile = ProfileReport(df)
+data = pd.read_csv("Suicides_in_India.csv")
+profile = ProfileReport(data)
 profile
