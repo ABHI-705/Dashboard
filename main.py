@@ -20,6 +20,8 @@ st.set_page_config(
 @st.cache
 def load_data():
     df = pd.read_csv("Suicides_in_India.csv")
+    # Dropping 'Total (States)' and 'Total (All India)' columns
+    df = df.drop(columns=['Total (States)', 'Total (All India)'])
     return df
 
 df = load_data()
