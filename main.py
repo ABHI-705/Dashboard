@@ -67,5 +67,5 @@ st.plotly_chart(fig_age_group_deaths)
 # Statistics Report
 st.title("Statistics Report")
 st.header("Data Summary")
-profile = ProfileReport(df)
+profile = ProfileReport(df, minimal=True)
 st_profile_report(profile)
