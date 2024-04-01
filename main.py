@@ -4,91 +4,68 @@ import pandas as pd
 from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 
-st.set_page_config(page_title="Suicides In India",
-                   page_icon=":bar_chart:",
-                   layout="wide")
-
-df = pd.read_csv("Suicides_in_India.csv")
-
-# ---sidebar
-st.sidebar.header("Please Filter Here:")
-State = st.sidebar.multiselect(
-    "Select the State:-",
-    options=df['State'].unique(),
+# Set page configuration
+st.set_page_config(
+    page_title="Suicides In India",
+    page_icon=":bar_chart:",
+    layout="wide"
 )
 
-Year = st.sidebar.multiselect(
-    "Select the Year:-",
-    options=df['Year'].unique(),
-)
+# Read data
+@st.cache
+def load_data():
+    df = pd.read_csv("Suicides_in_India.csv")
+    return df
 
-Type = st.sidebar.multiselect(
-    "Select the Type:-",
-    options=df['Type'].unique(),
-)
+df = load_data()
 
-Age_group = st.sidebar.multiselect(
-    "Select the Age_group:-",
-    options=df['Age_group'].unique()
-)
+# Sidebar filters
+st.sidebar.header("Filter Data")
+state = st.sidebar.multiselect("Select State", options=df['State'].unique())
+year = st.sidebar.multiselect("Select Year", options=df['Year'].unique())
+type = st.sidebar.multiselect("Select Type", options=df['Type'].unique())
+age_group = st.sidebar.multiselect("Select Age Group", options=df['Age_group'].unique())
+gender = st.sidebar.multiselect("Select Gender", options=df['Gender'].unique())
 
-Gender = st.sidebar.multiselect(
-    "Select the Gender:-",
-    options=df['Gender'].unique()
-)
+# Apply filters
+filtered_df = df.query("State == @state and Year == @year and Type == @type and Age_group == @age_group and Gender == @gender")
 
-df_selection = df.query(
-    "State==@State & Year==@Year & Type==@Type & Age_group==@Age_group & Gender==@Gender "
-)
-
-st.dataframe(df_selection)
+# Display filtered data
+st.dataframe(filtered_df)
 
 # Main page
 st.title(":bar_chart: Suicides In India Dashboard")
-st.markdown("##")
 
-s_t = df.groupby(["Year"]).sum()["Total"].reset_index()
-
-fig = px.line(s_t, x=s_t["Year"], y=s_t["Total"], title="Suicide Rate Per Year")
+# Line chart for suicide rate per year
+suicide_rate_per_year = df.groupby("Year").sum()["Total"].reset_index()
+fig = px.line(suicide_rate_per_year, x="Year", y="Total", title="Suicide Rate Per Year")
 st.plotly_chart(fig)
 
-state_wise_deaths = ((df.groupby(["State"]).sum())[["Total"]].sort_values(by="Total"))
+# Bar chart for state-wise deaths
+state_wise_deaths = df.groupby("State").sum()["Total"].sort_values(ascending=False)
 fig_deaths = px.bar(
-    state_wise_deaths,
-    x="Total",
+    x=state_wise_deaths.values,
     y=state_wise_deaths.index,
     orientation="h",
-    title="<b> State Wise Deaths</b>",
-    color_discrete_sequence=["#0083B8"] * len(state_wise_deaths),
-    template="plotly_white",
-)
-
-fig_deaths.update_layout(
-    plot_bgcolor="rgba(0,0,0,0)",
-    xaxis=(dict(showgrid=False))
+    title="State Wise Deaths",
+    color=state_wise_deaths.values,
+    color_continuous_scale='blues'
 )
 st.plotly_chart(fig_deaths)
 
-input_col, pie_col = st.columns(2)
-data = df.groupby(["State"])
-pf = data["Total"].sum().reset_index()
-pf.columns = ["State", "Total"]
-jf = pf.sort_values(by="Total", ascending=False)
-top_n = input_col.text_input("How many of the states would you like to see?", 10)
-top_n = int(top_n)
-jf = jf.head(top_n)
-jf = jf.head(top_n)
+# Pie chart for top N states
+top_n = st.sidebar.number_input("Top N states", min_value=1, max_value=len(df['State'].unique()), value=10)
+top_states = df.groupby("State").sum()["Total"].nlargest(top_n).reset_index()
+fig_pie = px.pie(top_states, values="Total", names="State", title="Top States by Total Suicides")
+st.plotly_chart(fig_pie)
 
-fig = px.pie(jf, values="Total", names="State")
-pie_col.write(fig)
+# Bar chart for deaths by different age groups
+age_group_deaths = df.groupby("Age_group").sum()["Total"].reset_index().sort_values(by="Total", ascending=False)
+fig_age_group_deaths = px.bar(age_group_deaths, x="Age_group", y="Total", color="Age_group", title="Deaths by Age Groups")
+st.plotly_chart(fig_age_group_deaths)
 
-x = df.groupby("Age_group")
-y = x["Total"].sum().reset_index().sort_values(by="Total", ascending=False)
-y.columns = ["Age_group", "Total"]
-ax = px.bar(y, x='Age_group', y="Total", color='Age_group', title='Deaths By different Age Groups')
-st.plotly_chart(ax)
-
+# Statistics Report
 st.title("Statistics Report")
-st.header("Data")
+st.header("Data Summary")
 profile = ProfileReport(df)
 st_profile_report(profile)
