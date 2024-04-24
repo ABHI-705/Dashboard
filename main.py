@@ -74,4 +74,5 @@ st.header("Data Summary")
 data = pd.read_csv("Suicides_in_India.csv")
 #profile = ProfileReport(data)
 profile = ProfileReport(data, title="Profiling Report")
+profile
 #profile.to_file(output_file='report.html')
