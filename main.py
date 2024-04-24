@@ -6,8 +6,7 @@ import pandas as pd
 from ydata_profiling import ProfileReport
 import streamlit as st
 import plotly.express as px
-import pandas as pd
-from pandas_profiling import ProfileReport
+
 
 # Set page configuration
 st.set_page_config(
@@ -74,4 +73,4 @@ st.title("Statistics Report")
 st.header("Data Summary")
 data = pd.read_csv("Suicides_in_India.csv")
 profile = ProfileReport(data)
-profile
+profile.to_file(output_file='report.html')
