@@ -3,7 +3,7 @@
 
 # importing packages
 import pandas as pd
-from ydata_profiling import ProfileReport
+from pandas_profiling import ProfileReport
 import streamlit as st
 import plotly.express as px
 
